@@ -2,20 +2,35 @@ import { Injectable } from '@nestjs/common';
 import { DocumentRepository } from './document.repository';
 import { DocumentEntityCreateDTO } from './dto/document.create';
 import moment from 'moment';
-import { FileRepository } from '../files/files.repository';
+import { FilesRepository } from '../files/files.repository';
+import { DocumentUpdateEntityDTO } from './dto/document.update';
 
 @Injectable()
 export class DocumentService {
   constructor(
     private readonly documentRepository: DocumentRepository,
-    private readonly fileRepository: FileRepository,
+    private readonly filesRepository: FilesRepository,
   ) {}
 
   create(dto: DocumentEntityCreateDTO) {
     const document = this.documentRepository.create({
       ...dto,
-      issued_date: moment(dto.issued_date).format('yyyy-mm-dd'),
+      issuedDate: moment(dto.issued_date).format('yyyy-mm-dd'),
     });
     return this.documentRepository.save(document);
+  }
+
+  async update(id: string, dto: DocumentUpdateEntityDTO) {
+    const document = await this.documentRepository.update(id, {
+      type: dto.type,
+      series: dto.series,
+      number: dto.number,
+      birthdate: dto.birthdate,
+      unitCode: dto.unit_code,
+      issuer: dto.issuer,
+      issuedDate: dto.issued_date,
+    });
+
+    return document;
   }
 }

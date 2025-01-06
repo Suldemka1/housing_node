@@ -2,22 +2,28 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { QueueRepository } from './queue.repository';
 import { QueueEntity } from './queue.entity';
 import { UpdateResult } from 'typeorm';
+import { QueueUpdateDTO } from './dto/queue.update';
 
 @Injectable()
 class QueueService {
   constructor(private queueRepository: QueueRepository) {}
 
-  async update(queue: QueueEntity): Promise<UpdateResult> {
-    const originalQueueEntity = await this.queueRepository.findOne({
-      where: {
-        id: queue.id,
-      },
-    });
+  async update(id: number, dto: QueueUpdateDTO): Promise<UpdateResult> {
+    const [originalQueueEntity] = await Promise.all([
+      this.queueRepository.findOne({
+        where: {
+          id: id,
+        },
+      }),
+    ]);
 
-    if (queue.number != originalQueueEntity.number) {
+    if (
+      dto.number != originalQueueEntity.number ||
+      dto.type != originalQueueEntity.type
+    ) {
       const isBindable = await this.queueRepository.checkIsQueueBindable(
-        queue.type,
-        queue.number,
+        dto.type,
+        dto.number,
       );
       if (!isBindable) {
         throw new BadRequestException();
@@ -26,9 +32,11 @@ class QueueService {
 
     const updateResult = await this.queueRepository.update(
       {
-        id: queue.id,
+        id: id,
       },
-      queue,
+      {
+        ...dto,
+      },
     );
 
     return updateResult;

@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   Column,
   Entity,
   ManyToOne,
@@ -41,12 +42,20 @@ class DocumentEntity {
   number?: string;
 
   @Column({
+    type: 'date',
+    nullable: true,
     default: null,
   })
-  unit_code?: string;
+  birthdate?: Date;
 
-  @Column({ type: 'date', nullable: true })
-  issued_date?: string;
+  @Column({
+    name: 'unit_code',
+    default: null,
+  })
+  unitCode?: string;
+
+  @Column({ type: 'date', nullable: true, name: 'issued_date' })
+  issuedDate?: Date;
 
   @Column({
     nullable: true,
@@ -61,6 +70,27 @@ class DocumentEntity {
 
   @ManyToOne(() => ApplicationEntity, (entity) => entity.id)
   application: ApplicationEntity;
+
+  @AfterLoad()
+  convertToDocumentType() {
+    if (this.type === DocumentType.PASSPORT) {
+    }
+
+    if (this.type === DocumentType.CERTIFICATE) {
+    }
+
+    if (this.type === DocumentType.MARRIAGE_CERTIFICATE) {
+      delete this.unitCode;
+      delete this.birthdate;
+    }
+
+    if (this.type === DocumentType.UNDEFINED) {
+      delete this.birthdate;
+      delete this.unitCode;
+      delete this.issuer;
+      delete this.issuedDate;
+    }
+  }
 }
 
 export { DocumentEntity, DocumentType };

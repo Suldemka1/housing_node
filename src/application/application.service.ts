@@ -7,6 +7,7 @@ import { RealEstateRepository } from '../real_estate/real_estate.repository';
 import { FamilyRepository } from '../family/family.repository';
 import familyEntity from '../family/family.entity';
 import { ParticipantService } from '../participant/participant.service';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Injectable()
 class ApplicationService {
@@ -57,13 +58,36 @@ class ApplicationService {
     return applications;
   }
 
+  async getApplicationById(id: number): Promise<ApplicationEntity> {
+    return await this.applicationRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        applicant: {
+          spouse: true,
+          children: true,
+          family: true,
+        },
+        queue: true,
+        realEstate: true,
+      },
+    });
+  }
+
   async setAcceptedStatus(id: number) {
     await this.applicationRepository.update(id, {
       status: ApplicationStatus.ACCEPTED,
     });
   }
 
-  async deleteApplication(id: number) {
+  async updateApplication(
+    application: ApplicationEntity,
+  ): Promise<UpdateResult> {
+    return await this.applicationRepository.update(application.id, application);
+  }
+
+  async deleteApplication(id: number): Promise<DeleteResult> {
     const application = await this.applicationRepository.delete(id);
 
     return application;

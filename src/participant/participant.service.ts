@@ -4,6 +4,7 @@ import { ParticipantEntity } from './participant.entity';
 import { DocumentFactoryService } from '../document/factory/document.factory';
 import { DocumentType } from '../document/document.entity';
 import { FamilyRepository } from '../family/family.repository';
+import { DeepPartial } from 'typeorm';
 
 @Injectable()
 class ParticipantService {
@@ -39,6 +40,13 @@ class ParticipantService {
     );
 
     return draftParticipant;
+  }
+
+  async update(id: number, dto: DeepPartial<ParticipantEntity>) {
+    const data = await this.participantRepository.update(id, {
+      ...dto,
+    });
+    return data;
   }
 }
 

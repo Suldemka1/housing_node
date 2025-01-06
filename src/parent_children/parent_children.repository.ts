@@ -32,9 +32,31 @@ class ParentChildrenRepository extends Repository<ParentChildrenEntity> {
     return result;
   }
 
-  async onModuleInit(): Promise<void> {
-    const parentChildren = await this.findChildrenByParentId(1);
-    console.log(parentChildren);
+  async appendChildrenToParent(
+    parents: Array<number>,
+    children: Array<number>,
+  ): Promise<boolean> {
+    const transactionResult = await this.manager.transaction(
+      async (manager) => {
+        for (const parentId of parents) {
+          for (const childId of children) {
+            await manager
+              .update(ParentChildrenEntity, parentId, {
+                child: {
+                  id: childId,
+                },
+              })
+              .catch((err) => {
+                throw err;
+              });
+          }
+        }
+
+        return true;
+      },
+    );
+
+    return transactionResult;
   }
 }
 

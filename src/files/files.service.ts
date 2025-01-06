@@ -1,9 +1,18 @@
-import { FileRepository } from './files.repository';
+import { FilesRepository } from './files.repository';
 import { Injectable } from '@nestjs/common';
+import { FileEntity } from './files.entity';
 
 @Injectable()
-class FileService {
-  constructor(private fileRepository: FileRepository) {}
+class FilesService {
+  constructor(private filesRepository: FilesRepository) {}
+
+  async findById(id: string): Promise<FileEntity> {
+    const file = await this.filesRepository.findOne({
+      where: { id: id },
+    });
+
+    return file;
+  }
 }
 
-export { FileService };
+export { FilesService };

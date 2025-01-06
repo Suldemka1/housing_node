@@ -5,7 +5,7 @@ import { DocumentRepository } from './document.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DocumentController } from './document.controller';
 import { DocumentService } from './document.service';
-import { FileRepository } from '../files/files.repository';
+import { FilesRepository } from '../files/files.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DocumentEntity])],
@@ -14,7 +14,7 @@ import { FileRepository } from '../files/files.repository';
     DocumentService,
     DocumentRepository,
     DocumentFactoryService,
-    FileRepository,
+    FilesRepository,
   ],
   exports: [DocumentService, DocumentFactoryService, DocumentRepository],
 })

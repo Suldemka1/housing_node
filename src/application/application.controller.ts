@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { Application } from 'express';
+import { ApplicationUpdateEntityDTO } from './dto/application.update';
 
 @Controller('application')
 class ApplicationController {
@@ -24,13 +33,20 @@ class ApplicationController {
   }
 
   @Get('/:id')
-  async getDraftApplicationById(@Param('id') id: number) {}
+  async getDraftApplicationById(@Param('id') id: number) {
+    return await this.applicationService.getApplicationById(id);
+  }
 
   @Patch('/:id')
   async updateApplication(
-    @Param('id') id: number,
-    @Body() application: Application,
-  ) {}
+    @Param('id') id: string,
+    @Body() body: ApplicationUpdateEntityDTO,
+  ) {
+    console.log(id);
+    console.log(body);
+
+    return { data: body };
+  }
 
   @Delete('/:id')
   async deleteApplication(@Param('id') id: number) {

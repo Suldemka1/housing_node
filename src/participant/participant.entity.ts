@@ -37,7 +37,9 @@ class ParticipantEntity {
   })
   patronymic: string;
 
-  @ManyToOne(() => FamilyEntity, (entity) => entity.id)
+  @ManyToOne(() => FamilyEntity, (entity) => entity.id, {
+    nullable: false,
+  })
   @JoinColumn({ name: 'family_id' })
   family: FamilyEntity;
 

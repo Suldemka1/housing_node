@@ -1,0 +1,3 @@
+class QueueTransferDTO {}
+
+export { QueueTransferDTO };

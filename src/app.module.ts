@@ -22,6 +22,8 @@ import { ParentChildrenModule } from './parent_children/parent_children.module';
 import { ApplicationModule } from './application/application.module';
 import { FileModule } from './files/files.module';
 import { RealEstateModule } from './real_estate/real_estate.module';
+import { AccountModule } from './account/account.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -55,6 +57,8 @@ import { RealEstateModule } from './real_estate/real_estate.module';
         ],
       }),
     }),
+    AuthModule,
+    AccountModule,
     ApplicationModule,
     FamilyModule,
     FileModule,

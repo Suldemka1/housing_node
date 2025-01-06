@@ -1,0 +1,3 @@
+class ApplicationUpdateEntityDTO {}
+
+export { ApplicationUpdateEntityDTO };
