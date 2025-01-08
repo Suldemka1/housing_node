@@ -4,6 +4,8 @@ import { DocumentEntityCreateDTO } from './dto/document.create';
 import moment from 'moment';
 import { FilesRepository } from '../files/files.repository';
 import { DocumentUpdateEntityDTO } from './dto/document.update';
+import { DeepPartial } from 'typeorm';
+import { DocumentEntity } from './document.entity';
 
 @Injectable()
 export class DocumentService {
@@ -12,12 +14,12 @@ export class DocumentService {
     private readonly filesRepository: FilesRepository,
   ) {}
 
-  create(dto: DocumentEntityCreateDTO) {
+  async create(dto: DeepPartial<DocumentEntity>) {
     const document = this.documentRepository.create({
       ...dto,
-      issuedDate: moment(dto.issued_date).format('yyyy-mm-dd'),
+      issuedDate: new Date(),
     });
-    return this.documentRepository.save(document);
+    return await this.documentRepository.save(document);
   }
 
   async update(id: string, dto: DocumentUpdateEntityDTO) {

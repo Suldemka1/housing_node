@@ -21,7 +21,7 @@ class FamilyEntity {
   })
   isLarge: boolean;
 
-  @OneToMany(() => DocumentEntity, (entity) => entity.id)
+  @OneToMany(() => DocumentEntity, (entity) => entity.family)
   documents: DocumentEntity[];
 
   @OneToMany(() => ParticipantEntity, (document) => document.family)

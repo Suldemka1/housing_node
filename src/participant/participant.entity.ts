@@ -19,8 +19,8 @@ import { ParentChildrenEntity } from '../parent_children/parent_children.entity'
   name: 'participant',
 })
 class ParticipantEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     default: 'Фамилия',
@@ -47,14 +47,14 @@ class ParticipantEntity {
   @JoinColumn({ name: 'passport_id' })
   passport: DocumentEntity;
 
-  @OneToMany(() => DocumentEntity, (entity) => entity.id)
+  @OneToMany(() => DocumentEntity, (entity) => entity.participant)
   documents: DocumentEntity[];
 
   @OneToMany(() => ParentChildrenEntity, (entity) => entity.parent)
-  children?: ParticipantEntity[];
+  children?: ParentChildrenEntity[];
 
   @OneToMany(() => ParentChildrenEntity, (entity) => entity.child)
-  parents?: ParticipantEntity[];
+  parents?: ParentChildrenEntity[];
 
   @OneToOne(() => ParticipantEntity, (entity) => entity.id, {
     nullable: true,

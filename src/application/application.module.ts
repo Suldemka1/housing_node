@@ -8,6 +8,8 @@ import { QueueModule } from '../queue/queue.module';
 import { ParticipantModule } from '../participant/participant.module';
 import { RealEstateModule } from '../real_estate/real_estate.module';
 import { FamilyModule } from '../family/family.module';
+import { ParentChildrenService } from '../parent_children/parent_children.service';
+import { ParentChildrenModule } from '../parent_children/parent_children.module';
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { FamilyModule } from '../family/family.module';
     QueueModule,
     ParticipantModule,
     RealEstateModule,
+    ParentChildrenModule,
   ],
   controllers: [ApplicationController],
   providers: [ApplicationService, ApplicationRepository],

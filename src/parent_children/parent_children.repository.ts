@@ -10,7 +10,7 @@ class ParentChildrenRepository extends Repository<ParentChildrenEntity> {
   }
 
   async findChildrenByParentId(
-    parentId: number,
+    parentId: string,
   ): Promise<Array<ParticipantEntity>> {
     const result: Array<ParticipantEntity> = [];
     const parentChildrenEntities = await this.find({
@@ -33,22 +33,22 @@ class ParentChildrenRepository extends Repository<ParentChildrenEntity> {
   }
 
   async appendChildrenToParent(
-    parents: Array<number>,
-    children: Array<number>,
+    parents: Array<string>,
+    children: Array<string>,
   ): Promise<boolean> {
     const transactionResult = await this.manager.transaction(
       async (manager) => {
         for (const parentId of parents) {
           for (const childId of children) {
-            await manager
-              .update(ParentChildrenEntity, parentId, {
-                child: {
-                  id: childId,
-                },
-              })
-              .catch((err) => {
-                throw err;
-              });
+            const relation = manager.create(ParentChildrenEntity, {
+              child: {
+                id: childId,
+              },
+              parent: {
+                id: parentId,
+              },
+            });
+            await manager.save(relation);
           }
         }
 

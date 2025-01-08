@@ -13,7 +13,7 @@ class ParticipantRepository extends Repository<ParticipantEntity> {
     return this.save(this.create());
   }
 
-  async bindPassport(id: number, passport: DocumentEntity) {
+  async bindPassport(id: string, passport: DocumentEntity) {
     const savedPassport = await this.manager.save(DocumentEntity, passport);
     const updateResult = await this.update(id, {
       passport: savedPassport,

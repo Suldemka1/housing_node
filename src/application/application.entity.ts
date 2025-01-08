@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { QueueEntity } from '../queue/queue.entity';
 import { RealEstateEntity } from '../real_estate/real_estate.entity';
+import { DocumentEntity } from '../document/document.entity';
 
 enum ApplicationStatus {
   DRAFT = 'DRAFT',
@@ -47,6 +48,9 @@ class ApplicationEntity {
   @OneToOne(() => RealEstateEntity, (entity) => entity.id)
   @JoinColumn({ name: 'real_estate_id' })
   realEstate: RealEstateEntity;
+
+  @OneToMany(() => DocumentEntity, (entity) => entity.application)
+  documents: DocumentEntity[];
 
   @Column({
     type: 'date',

@@ -8,8 +8,8 @@ class ParentChildrenService {
   ) {}
 
   async appendChildren(
-    parents: Array<number>,
-    children: Array<number>,
+    parents: Array<string>,
+    children: Array<string>,
   ): Promise<boolean> {
     const appendResult =
       await this.parentChildrenRepository.appendChildrenToParent(

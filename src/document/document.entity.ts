@@ -2,6 +2,7 @@ import {
   AfterLoad,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -9,6 +10,7 @@ import {
 import { FileEntity } from '../files/files.entity';
 import { ParticipantEntity } from '../participant/participant.entity';
 import { ApplicationEntity } from '../application/application.entity';
+import FamilyEntity from '../family/family.entity';
 
 enum DocumentType {
   UNDEFINED = 'UNDEFINED',
@@ -62,13 +64,19 @@ class DocumentEntity {
   })
   issuer?: string;
 
-  @OneToMany(() => FileEntity, (entity) => entity.id)
-  file?: FileEntity[];
+  @OneToMany(() => FileEntity, (entity) => entity.document)
+  files?: FileEntity[];
 
   @ManyToOne(() => ParticipantEntity, (entity) => entity.id)
-  participants: ParticipantEntity;
+  @JoinColumn({ name: 'participant_id' })
+  participant: ParticipantEntity;
+
+  @ManyToOne(() => FamilyEntity, (entity) => entity.id)
+  @JoinColumn({ name: 'family_id' })
+  family: FamilyEntity;
 
   @ManyToOne(() => ApplicationEntity, (entity) => entity.id)
+  @JoinColumn({ name: 'application_id' })
   application: ApplicationEntity;
 
   @AfterLoad()

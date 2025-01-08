@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, DeepPartial, Repository } from 'typeorm';
 import FamilyEntity from './family.entity';
 
 @Injectable()
