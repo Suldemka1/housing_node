@@ -6,18 +6,12 @@ class DocumentEntityCreateDTO {
   number: string;
   unit_code: string;
   issuer: string;
-  issued_date: number;
+  issuedDate: number;
 
   toDocumentEntity() {
     const documentEntity = new DocumentEntity();
 
     return documentEntity;
-  }
-}
-
-class Passport extends DocumentEntityCreateDTO {
-  constructor() {
-    super();
   }
 }
 

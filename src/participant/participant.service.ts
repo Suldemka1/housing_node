@@ -43,6 +43,7 @@ class ParticipantService {
             id: participantObject.id,
           },
         });
+        console.log(files);
         await this.documentRepository.save(newDocument);
       }
     } catch (error) {

@@ -30,7 +30,7 @@ export class DocumentService {
       birthdate: dto.birthdate,
       unitCode: dto.unit_code,
       issuer: dto.issuer,
-      issuedDate: dto.issued_date,
+      issuedDate: dto.issuedDate,
     });
 
     return document;

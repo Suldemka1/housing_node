@@ -6,18 +6,30 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { ApplicationUpdateEntityDTO } from './dto/application.update';
 import { ApplicationEntityCreateDTO } from './dto/application.create';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('application')
 class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
 
   @Post('/')
-  async createApplication(@Body() body: ApplicationEntityCreateDTO) {
+  @UseInterceptors(AnyFilesInterceptor())
+  async createApplication(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() body: ApplicationEntityCreateDTO,
+  ) {
     try {
+      console.log(body);
+
+      console.log(files);
+
+      console.log(JSON.stringify(body));
       const data = await this.applicationService.createDraftApplication(body);
       return { data: data };
     } catch (error) {

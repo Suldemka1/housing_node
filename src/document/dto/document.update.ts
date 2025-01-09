@@ -20,7 +20,7 @@ class DocumentUpdateEntityDTO {
 
   @IsOptional()
   @IsDateString()
-  issued_date?: Date;
+  issuedDate?: Date;
 
   @IsOptional()
   @IsDateString()

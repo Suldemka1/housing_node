@@ -34,7 +34,7 @@ class ApplicationService {
 
     const family = this.familyRepository.create({
       isMarried: dto.spouse !== undefined,
-      isLarge: dto.children.length > 2,
+      isLarge: dto.children?.length > 2,
     });
 
     const savedFamily = await this.familyRepository.save(family);
