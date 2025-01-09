@@ -11,9 +11,6 @@ class FileEntity {
   id: string;
 
   @Column()
-  name: string;
-
-  @Column()
   filename_disk: string;
 
   @Column()

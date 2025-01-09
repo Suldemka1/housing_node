@@ -52,6 +52,7 @@ class ApplicationController {
   @Get('/:id')
   async getDraftApplicationById(@Param('id') id: number) {
     const application = await this.applicationService.getApplicationById(id);
+    console.log(application);
     const data = {
       id: application.id,
       applicant: application.applicant,
