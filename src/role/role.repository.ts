@@ -1,9 +1,9 @@
 import { DataSource, Repository } from 'typeorm';
 import { RoleEntity, RoleTypes } from './role.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 
 @Injectable()
-class RoleRepository extends Repository<RoleEntity> {
+class RoleRepository extends Repository<RoleEntity> implements OnModuleInit {
   constructor(dataSource: DataSource) {
     super(RoleEntity, dataSource.createEntityManager());
   }
