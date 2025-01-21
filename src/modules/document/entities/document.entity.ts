@@ -15,7 +15,7 @@ import { PassportEntity } from './passport.entity';
 import { DivorceCertificateEntity } from './divorce_certificate';
 import { MarriageCertificateEntity } from './marriage_certificate';
 
-enum DocumentType {
+enum DocumentTypes {
   UNDEFINED = 'UNDEFINED',
   PASSPORT = 'PASSPORT',
   BIRTH_CERTIFICATE = 'BIRTH_CERTIFICATE',
@@ -32,8 +32,8 @@ class DocumentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ enum: DocumentType, default: DocumentType.UNDEFINED })
-  type: DocumentType;
+  @Column({ enum: DocumentTypes, default: DocumentTypes.UNDEFINED })
+  type: DocumentTypes;
 
   @OneToMany(() => FileEntity, (entity) => entity.document)
   files?: FileEntity[];
@@ -72,4 +72,4 @@ class DocumentEntity {
   divorce_certificate?: DivorceCertificateEntity;
 }
 
-export { DocumentEntity, DocumentType };
+export { DocumentEntity, DocumentTypes };

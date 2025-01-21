@@ -1,10 +1,10 @@
-import { DocumentType } from '../entities/document.entity';
+import { DocumentTypes } from '../entities/document.entity';
 import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 class DocumentUpdateEntityDTO {
   @IsOptional()
   @IsString()
-  type?: DocumentType;
+  type?: DocumentTypes;
 
   @IsOptional()
   @IsString()

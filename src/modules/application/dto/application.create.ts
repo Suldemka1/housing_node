@@ -7,7 +7,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { DocumentType } from '../../document/entities/document.entity';
+import { DocumentTypes } from '../../document/entities/document.entity';
 import { ParticipantRequestDTO } from '../../participant/dto/participant.create';
 
 class DocumentRequestData {
@@ -15,8 +15,8 @@ class DocumentRequestData {
   @IsOptional()
   id: string;
 
-  @IsEnum(DocumentType)
-  type: DocumentType;
+  @IsEnum(DocumentTypes)
+  type: DocumentTypes;
 
   @IsString()
   series: string;

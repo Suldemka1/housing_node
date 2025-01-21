@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ParticipantRepository } from './participant.repository';
 import { ParticipantEntity } from './participant.entity';
 import { DocumentFactoryService } from '../document/factory/document.factory';
-import { DocumentType } from '../document/entities/document.entity';
+import { DocumentTypes } from '../document/entities/document.entity';
 import { FamilyRepository } from '../family/family.repository';
 import { DeepPartial } from 'typeorm';
 import { ParticipantCreateEntityDTO } from './dto/participant.create';
@@ -56,7 +56,7 @@ class ParticipantService {
     const draftParticipant = await this.participantRepository.createDraft();
     const draftFamily = await this.familyRepository.createDraft();
     const draftPassport = this.documentFactory.createDocument(
-      DocumentType.PASSPORT,
+      DocumentTypes.PASSPORT,
     );
     await this.participantRepository.update(draftParticipant.id, {
       family: draftFamily,

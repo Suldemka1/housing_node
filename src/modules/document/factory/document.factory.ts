@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { DocumentEntity, DocumentType } from '../entities/document.entity';
+import { DocumentEntity, DocumentTypes } from '../entities/document.entity';
 import { DocumentRepository } from '../document.repository';
 
 @Injectable()
 export class DocumentFactoryService {
   constructor(private readonly documentRepository: DocumentRepository) {}
 
-  createDocument(type: DocumentType): DocumentEntity {
+  createDocument(type: DocumentTypes): DocumentEntity {
     switch (type) {
-      case DocumentType.PASSPORT:
+      case DocumentTypes.PASSPORT:
         return this.createPassport();
-      case DocumentType.BIRTH_CERTIFICATE:
+      case DocumentTypes.BIRTH_CERTIFICATE:
         return this.createBirthCertificate();
-      case DocumentType.MARRIAGE_CERTIFICATE:
+      case DocumentTypes.MARRIAGE_CERTIFICATE:
         return this.createMarriageCertificate();
       default:
         throw new Error(`Document type '${type}' is not supported.`);
@@ -21,20 +21,20 @@ export class DocumentFactoryService {
 
   private createPassport(): DocumentEntity {
     const passport = this.documentRepository.create({
-      type: DocumentType.PASSPORT,
+      type: DocumentTypes.PASSPORT,
     });
     return passport;
   }
 
   private createBirthCertificate(): DocumentEntity {
     return this.documentRepository.create({
-      type: DocumentType.BIRTH_CERTIFICATE,
+      type: DocumentTypes.BIRTH_CERTIFICATE,
     });
   }
 
   private createMarriageCertificate(): DocumentEntity {
     return this.documentRepository.create({
-      type: DocumentType.MARRIAGE_CERTIFICATE,
+      type: DocumentTypes.MARRIAGE_CERTIFICATE,
     });
   }
 }

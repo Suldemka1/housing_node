@@ -1,7 +1,7 @@
-import { DocumentEntity, DocumentType } from '../entities/document.entity';
+import { DocumentEntity, DocumentTypes } from '../entities/document.entity';
 
 class DocumentEntityCreateDTO {
-  type: DocumentType;
+  type: DocumentTypes;
   series: string;
   number: string;
   unit_code: string;
