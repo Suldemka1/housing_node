@@ -1,3 +1,0 @@
-class ApplicationUpdateEntityDTO {}
-
-export { ApplicationUpdateEntityDTO };

@@ -1,0 +1,20 @@
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { DocumentEntity } from './document.entity';
+
+@Entity('marriage_certificates')
+class MarriageCertificateEntity {
+  @PrimaryColumn('uuid')
+  id: string;
+
+  @Column()
+  number: string;
+
+  @Column()
+  issued_date: Date;
+
+  @OneToOne(() => DocumentEntity, (entity) => entity.id)
+  @JoinColumn({ name: 'document_id' })
+  document: DocumentEntity;
+}
+
+export { MarriageCertificateEntity };

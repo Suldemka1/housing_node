@@ -10,6 +10,8 @@ export default () => ({
     database: process.env.DB_NAME,
   },
 
+  secret: process.env.SECRET,
+
   upload: {
     uploadPath: process.env.UPLOAD_PATH,
   },

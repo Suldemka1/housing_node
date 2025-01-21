@@ -2,28 +2,39 @@ import configuration from './config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { FamilyModule } from './family/family.module';
-import { DocumentModule } from './document/document.module';
+import { FamilyModule } from './modules/family/family.module';
+import { DocumentModule } from './modules/document/document.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { QueueEntity } from './queue/queue.entity';
-import { ApplicationEntity } from './application/application.entity';
-import FamilyEntity from './family/family.entity';
-import { ParticipantEntity } from './participant/participant.entity';
-import { DocumentEntity } from './document/document.entity';
-import { AccountEntity } from './account/account.entity';
-import { RealEstateEntity } from './real_estate/real_estate.entity';
-import { FileEntity } from './files/files.entity';
-import { ParentChildrenEntity } from './parent_children/parent_children.entity';
-import { RoleEntity } from './role/role.entity';
-import { RoleModule } from './role/role.module';
-import { ParticipantModule } from './participant/participant.module';
-import { ParentChildrenModule } from './parent_children/parent_children.module';
-import { ApplicationModule } from './application/application.module';
-import { FileModule } from './files/files.module';
-import { RealEstateModule } from './real_estate/real_estate.module';
-import { AccountModule } from './account/account.module';
-import { AuthModule } from './auth/auth.module';
+import { QueueEntity } from './modules/queue/queue.entity';
+import { ApplicationEntity } from './modules/application/application.entity';
+import FamilyEntity from './modules/family/family.entity';
+import { ParticipantEntity } from './modules/participant/participant.entity';
+import { DocumentEntity } from './modules/document/entities/document.entity';
+import { AccountEntity } from './modules/account/account.entity';
+import { RealEstateEntity } from './modules/real_estate/real_estate.entity';
+import { FileEntity } from './modules/files/files.entity';
+import { ParentChildrenEntity } from './modules/parent_children/parent_children.entity';
+import { RoleEntity } from './modules/role/role.entity';
+import { RoleModule } from './modules/role/role.module';
+import { ParticipantModule } from './modules/participant/participant.module';
+import { ParentChildrenModule } from './modules/parent_children/parent_children.module';
+import { ApplicationModule } from './modules/application/application.module';
+import { FileModule } from './modules/files/files.module';
+import { RealEstateModule } from './modules/real_estate/real_estate.module';
+import { AccountModule } from './modules/account/account.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { DocumentFilesView } from './modules/files/view/document_files.view';
+import { ParticipantDocumentView } from './modules/document/views/participant_document.view';
+import { ParticipantView } from './modules/participant/views/participant_view';
+import { ApplicationViewEntity } from './modules/application/views/applicant.view';
+import { PassportEntity } from './modules/document/entities/passport.entity';
+import {
+  BirthCertificateEntity,
+  DivorceCertificateEntity,
+  MarriageCertificateEntity,
+  SnilsEntity,
+} from './modules/document/entities';
 
 @Module({
   imports: [
@@ -48,12 +59,21 @@ import { AuthModule } from './auth/auth.module';
           ApplicationEntity,
           FamilyEntity,
           DocumentEntity,
+          PassportEntity,
+          BirthCertificateEntity,
+          MarriageCertificateEntity,
+          DivorceCertificateEntity,
+          SnilsEntity,
           ParticipantEntity,
           QueueEntity,
           RealEstateEntity,
           FileEntity,
           ParentChildrenEntity,
           RoleEntity,
+          DocumentFilesView,
+          ParticipantDocumentView,
+          ParticipantView,
+          ApplicationViewEntity,
         ],
       }),
     }),
