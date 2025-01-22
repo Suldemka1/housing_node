@@ -1,6 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { QueueRepository } from './queue.repository';
-import { QueueEntity } from './queue.entity';
 import { UpdateResult } from 'typeorm';
 import { QueueUpdateDTO } from './dto/queue.update';
 
@@ -8,42 +7,47 @@ import { QueueUpdateDTO } from './dto/queue.update';
 class QueueService {
   constructor(private queueRepository: QueueRepository) {}
 
-  async update(id: number, dto: QueueUpdateDTO): Promise<UpdateResult> {
-    const [originalQueueEntity] = await Promise.all([
-      this.queueRepository.findOne({
-        where: {
-          id: id,
-        },
-      }),
-    ]);
+  async updateByApplicationId(
+    applicationId: number,
+    dto: QueueUpdateDTO,
+  ): Promise<UpdateResult> {
+    const { type, number } = dto;
+    const isQueueBindable = await this.checkIsQueueBindable({
+      type,
+      number,
+    });
 
-    if (
-      dto.number != originalQueueEntity.number ||
-      dto.type != originalQueueEntity.type
-    ) {
-      const isBindable = await this.queueRepository.checkIsQueueBindable(
-        dto.type,
-        dto.number,
-      );
-      if (!isBindable) {
-        throw new BadRequestException();
-      }
+    if (!isQueueBindable) {
+      throw new ConflictException('queue number already exists');
     }
 
-    const updateResult = await this.queueRepository.update(
+    return await this.queueRepository.update(
       {
-        id: id,
+        application: {
+          id: applicationId,
+        },
       },
       {
-        ...dto,
+        type: dto.type,
+        number: dto.number,
       },
     );
-
-    return updateResult;
   }
 
-  async findByApplicationId(id: number): Promise<QueueEntity> {
-    return await this.queueRepository.findByApplicationId(id);
+  async checkIsQueueBindable(
+    dto: Omit<QueueUpdateDTO, 'id'>,
+  ): Promise<boolean> {
+    let isBindable = false;
+    const queue = await this.queueRepository.find({
+      where: {
+        type: dto.type,
+        number: dto.number,
+      },
+    });
+
+    isBindable = queue.length === 0;
+
+    return isBindable;
   }
 }
 

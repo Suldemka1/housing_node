@@ -10,6 +10,7 @@ import {
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { DocumentUpdateEntityDTO } from './dto/document.update';
 import { DocumentDeleteAttachmentDTO } from './dto/document.files';
+import { AnyDocumentUpdateDTO } from './crud_strategies/update_strategy/dto';
 
 @Controller('document')
 class DocumentController {
@@ -20,10 +21,9 @@ class DocumentController {
     @Param('id') id: string,
     @Body() body: DocumentUpdateEntityDTO,
   ) {
-    console.log(id);
-    console.log(body);
-
-    const data = await this.documentService.update(id, body);
+    const data = await this.documentService.update(
+      body as AnyDocumentUpdateDTO,
+    );
 
     return {
       data,

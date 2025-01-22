@@ -4,8 +4,10 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  ValidateNested,
 } from 'class-validator';
 import { DocumentRequestData } from '../../application/dto/application.create';
+import { Type } from 'class-transformer';
 
 class ParticipantRequestDTO {
   @IsOptional()
@@ -23,6 +25,8 @@ class ParticipantRequestDTO {
   patronymic?: string;
 
   @IsArray()
+  @ValidateNested()
+  @Type(() => DocumentRequestData)
   documents: DocumentRequestData[];
 }
 
@@ -38,11 +42,11 @@ class ParticipantCreateEntityDTO {
   patronymic?: string;
 
   @IsNumber()
-  familyId: number;
+  family_id: number;
 
   @IsOptional()
   @IsUUID()
-  spouseId?: string;
+  spouse_id?: string;
 
   documents: DocumentRequestData[];
 }

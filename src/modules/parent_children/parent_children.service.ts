@@ -11,13 +11,10 @@ class ParentChildrenService {
     parents: Array<string>,
     children: Array<string>,
   ): Promise<boolean> {
-    const appendResult =
-      await this.parentChildrenRepository.appendChildrenToParent(
-        parents,
-        children,
-      );
-
-    return appendResult;
+    return await this.parentChildrenRepository.appendChildrenToParent(
+      parents,
+      children,
+    );
   }
 }
 

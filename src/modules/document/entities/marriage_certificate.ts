@@ -7,9 +7,15 @@ class MarriageCertificateEntity {
   id: string;
 
   @Column()
+  series: string;
+
+  @Column()
   number: string;
 
   @Column()
+  issuer: string;
+
+  @Column('date')
   issued_date: Date;
 
   @OneToOne(() => DocumentEntity, (entity) => entity.id)

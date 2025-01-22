@@ -36,27 +36,23 @@ class ParentChildrenRepository extends Repository<ParentChildrenEntity> {
     parents: Array<string>,
     children: Array<string>,
   ): Promise<boolean> {
-    const transactionResult = await this.manager.transaction(
-      async (manager) => {
-        for (const parentId of parents) {
-          for (const childId of children) {
-            const relation = manager.create(ParentChildrenEntity, {
-              child: {
-                id: childId,
-              },
-              parent: {
-                id: parentId,
-              },
-            });
-            await manager.save(relation);
-          }
+    return await this.manager.transaction(async (manager) => {
+      for (const parentId of parents) {
+        for (const childId of children) {
+          const relation = manager.create(ParentChildrenEntity, {
+            child: {
+              id: childId,
+            },
+            parent: {
+              id: parentId,
+            },
+          });
+          await manager.save(relation);
         }
+      }
 
-        return true;
-      },
-    );
-
-    return transactionResult;
+      return true;
+    });
   }
 }
 

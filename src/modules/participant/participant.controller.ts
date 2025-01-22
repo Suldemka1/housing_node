@@ -14,7 +14,7 @@ class ParticipantController {
     @Param('id') id: string,
     @Body() body: ParticipantUpdateEntityDTO,
   ) {
-    const data = await this.participantService.update(Number(id), body);
+    const data = await this.participantService.update(id, body);
 
     return { data: data };
   }

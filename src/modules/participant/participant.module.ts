@@ -7,12 +7,14 @@ import { ParticipantService } from './participant.service';
 import { ParticipantController } from './participant.controller';
 import { DocumentModule } from '../document/document.module';
 import { FamilyModule } from '../family/family.module';
+import { ParentChildrenModule } from '../parent_children/parent_children.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ParticipantEntity, ParentChildrenEntity]),
     DocumentModule,
     FamilyModule,
+    ParentChildrenModule,
   ],
   controllers: [ParticipantController],
   providers: [ParticipantService, ParticipantRepository],

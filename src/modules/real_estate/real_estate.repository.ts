@@ -1,4 +1,4 @@
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, DeepPartial, Repository } from 'typeorm';
 import { RealEstateEntity } from './real_estate.entity';
 import { Injectable } from '@nestjs/common';
 
@@ -8,10 +8,14 @@ class RealEstateRepository extends Repository<RealEstateEntity> {
     super(RealEstateEntity, dataSource.createEntityManager());
   }
 
-  async createDraft() {
-    const realEstateEntity = this.create();
+  async createRealEstate(
+    dto: DeepPartial<RealEstateEntity>,
+  ): Promise<RealEstateEntity> {
+    const realEstateEntity = this.create(dto);
     return await this.save(realEstateEntity);
   }
+
+  async saveRealEstateDocuments() {}
 }
 
 export { RealEstateRepository };

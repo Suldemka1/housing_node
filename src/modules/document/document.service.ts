@@ -1,36 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { DocumentRepository } from './document.repository';
+import { DocumentRepository } from './repositories';
 import { FilesRepository } from '../files/files.repository';
-import { DocumentUpdateEntityDTO } from './dto/document.update';
-import { DeepPartial } from 'typeorm';
-import { DocumentEntity } from './entities/document.entity';
+import { DocumentCreateStrategy } from './crud_strategies/create_strategy/create_strategy';
+import { AnyDocumentCreateDTO } from './crud_strategies/create_strategy/dto';
+import { DocumentUpdateStrategy } from './crud_strategies/update_strategy/update_strategy';
+import { AnyDocumentUpdateDTO } from './crud_strategies/update_strategy/dto';
 
 @Injectable()
 export class DocumentService {
   constructor(
+    private readonly documentCreateStrategy: DocumentCreateStrategy,
+    private readonly documentUpdateStrategy: DocumentUpdateStrategy,
     private readonly documentRepository: DocumentRepository,
     private readonly filesRepository: FilesRepository,
   ) {}
 
-  async create(dto: DeepPartial<DocumentEntity>) {
-    // const document = this.documentRepository.create({
-    //   ...dto,
-    //   issued_date: new Date(),
-    // });
-    // return await this.documentRepository.save(document);
+  async create(dto: AnyDocumentCreateDTO) {
+    return await this.documentCreateStrategy.create(dto);
   }
 
-  async update(id: string, dto: DocumentUpdateEntityDTO) {
-    // const document = await this.documentRepository.update(id, {
-    //   type: dto.type,
-    //   series: dto.series,
-    //   number: dto.number,
-    //   birthdate: dto.birthdate,
-    //   unit_code: dto.unit_code,
-    //   issuer: dto.issuer,
-    //   issued_date: dto.issued_date,
-    // });
-    //
-    // return document;
+  async update(dto: AnyDocumentUpdateDTO) {
+    return await this.documentUpdateStrategy.update(dto);
   }
 }

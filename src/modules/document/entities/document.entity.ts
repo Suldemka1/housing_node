@@ -14,6 +14,7 @@ import FamilyEntity from '../../family/family.entity';
 import { PassportEntity } from './passport.entity';
 import { DivorceCertificateEntity } from './divorce_certificate';
 import { MarriageCertificateEntity } from './marriage_certificate';
+import { BirthCertificateEntity } from './birth_certificate';
 
 enum DocumentTypes {
   UNDEFINED = 'UNDEFINED',
@@ -54,12 +55,12 @@ class DocumentEntity {
   @OneToOne(() => PassportEntity, (entity) => entity.document, {
     nullable: true,
   })
-  passport: PassportEntity;
+  passport?: PassportEntity;
 
-  @OneToOne(() => PassportEntity, (entity) => entity.document, {
+  @OneToOne(() => BirthCertificateEntity, (entity) => entity.document, {
     nullable: true,
   })
-  birth_certificate?: PassportEntity;
+  birth_certificate?: BirthCertificateEntity;
 
   @OneToOne(() => MarriageCertificateEntity, (entity) => entity.document, {
     nullable: true,

@@ -13,10 +13,14 @@ import { ApplicationService } from './application.service';
 import { ApplicationUpdateEntityDTO } from './dto/application.update';
 import { ApplicationEntityCreateDTO } from './dto/application.create';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { QueueService } from '../queue/queue.service';
 
 @Controller('application')
 class ApplicationController {
-  constructor(private readonly applicationService: ApplicationService) {}
+  constructor(
+    private readonly applicationService: ApplicationService,
+    private readonly queueService: QueueService,
+  ) {}
 
   @Post('/')
   @UseInterceptors(AnyFilesInterceptor())
@@ -45,11 +49,9 @@ class ApplicationController {
 
   @Get('/:id')
   async getDraftApplicationById(@Param('id') id: number) {
-    const application = await this.applicationService.getApplicationById(id);
+    const data = await this.applicationService.getApplicationById(id);
 
-    return {
-      data: application,
-    };
+    return { data };
   }
 
   @Patch('/:id')
@@ -57,9 +59,33 @@ class ApplicationController {
     @Param('id') id: string,
     @Body() body: ApplicationUpdateEntityDTO,
   ) {
-    const { applicant, spouse, children, family, queue } = body;
+    try {
+      const { application, applicant, spouse, children, family, queue } = body;
+      const originalApplication =
+        await this.applicationService.getApplicationById(Number(id));
 
-    return { data: body };
+      if (application.id && queue) {
+        const updatedQueue = await this.queueService.updateByApplicationId(
+          originalApplication.id,
+          queue,
+        );
+      }
+
+      if (originalApplication.children.length > children.length) {
+      } else if (originalApplication.children.length < children.length) {
+      } else {
+      }
+
+      console.log(application);
+      console.log(applicant);
+      console.log(spouse);
+      console.log(children);
+      console.log(family);
+
+      return { data: body };
+    } catch (e) {
+      throw e;
+    }
   }
 
   @Delete('/:id')

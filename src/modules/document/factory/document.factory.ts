@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DocumentEntity, DocumentTypes } from '../entities/document.entity';
-import { DocumentRepository } from '../document.repository';
+import { DocumentRepository } from '../repositories';
 
 @Injectable()
 export class DocumentFactoryService {

@@ -1,14 +1,12 @@
-import { QueueEntity, QueueType } from '../queue.entity';
-import { IsEnum, IsNumber, IsOptional } from 'class-validator';
+import { QueueType } from '../queue.entity';
+import { IsEnum, IsNumber } from 'class-validator';
 
 class QueueUpdateDTO {
-  @IsEnum(QueueEntity)
-  @IsOptional()
-  type?: QueueType;
+  @IsEnum(QueueType)
+  type: QueueType;
 
   @IsNumber()
-  @IsOptional()
-  number?: number;
+  number: number;
 }
 
 export { QueueUpdateDTO };

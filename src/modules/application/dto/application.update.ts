@@ -24,6 +24,7 @@ class UpdateApplicationDTO {
   @IsEnum(ApplicationStatus)
   status: ApplicationStatus;
 
+  @IsOptional()
   @IsArray()
   @ValidateNested()
   @Type(() => UpdateDocumentDTO)
@@ -86,10 +87,11 @@ class UpdateParticipantDTO {
   @Type(() => UpdatePassportDTO)
   passport: UpdatePassportDTO;
 
+  @IsOptional()
   @IsArray()
   @ValidateNested()
   @Type(() => UpdateDocumentDTO)
-  documents: UpdateDocumentDTO[];
+  documents?: UpdateDocumentDTO[];
 }
 
 class UpdateRealEstateDTO {
@@ -104,6 +106,12 @@ class UpdateRealEstateDTO {
 
   @IsNumber()
   full_price: number;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested()
+  @Type(() => UpdateDocumentDTO)
+  documents?: UpdateDocumentDTO[];
 }
 
 class UpdateFamilyDTO {
@@ -154,6 +162,7 @@ class ApplicationUpdateEntityDTO {
   @Type(() => UpdateFamilyDTO)
   family: UpdateFamilyDTO;
 
+  @IsOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => UpdateQueueDTO)
