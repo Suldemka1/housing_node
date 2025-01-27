@@ -32,7 +32,7 @@ class ApplicationService {
     const family = await this.familyService.createFamily({
       isMarried: dto.spouse !== undefined,
       isLarge: dto.children?.length > 2,
-      documents: dto.family.documents,
+      documents: dto.family?.documents,
     });
 
     const queue = await this.queueRepository.createDraft();

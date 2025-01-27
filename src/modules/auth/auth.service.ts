@@ -55,9 +55,14 @@ class AuthService implements OnModuleInit {
     return { refreshToken, refreshExpireDate };
   }
 
-  comparePassword = async (password: string, hashed_password: string) => {
+  /**
+   *
+   * @param password
+   * @param hashed_password
+   */
+  async comparePassword(hashed_password: string, password: string) {
     return await bcrypt.compare(password, hashed_password);
-  };
+  }
 
   onModuleInit() {
     this.secret = this.configService.get<string>('secret');

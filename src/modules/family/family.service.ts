@@ -22,18 +22,20 @@ export class FamilyService {
 
     const family = await this.familyRepository.save(familyObject);
 
-    for (const document of documents) {
-      const newDocument = await this.documentCreateStrategy.create(document);
-      const updatedDocument = await this.documentRepository.update(
-        {
-          id: newDocument.id,
-        },
-        {
-          family: {
-            id: family.id,
+    if (documents) {
+      for (const document of documents) {
+        const newDocument = await this.documentCreateStrategy.create(document);
+        const updatedDocument = await this.documentRepository.update(
+          {
+            id: newDocument.id,
           },
-        },
-      );
+          {
+            family: {
+              id: family.id,
+            },
+          },
+        );
+      }
     }
 
     return family;

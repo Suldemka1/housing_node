@@ -23,11 +23,13 @@ class AuthController {
     if (!account) {
       throw new UnauthorizedException();
     }
+    console.log(account);
 
     const isPasswordCompares = await this.authService.comparePassword(
       account.password,
       password,
     );
+    console.log(isPasswordCompares);
     if (!isPasswordCompares) {
       throw new ForbiddenException();
     }
@@ -39,7 +41,10 @@ class AuthController {
 
   @Post('/register')
   async register(@Body() body: CreateAccountDTO) {
-    return body;
+    const account = await this.accountService.create(body);
+    const credentials = this.authService.login(account);
+
+    return { data: credentials };
   }
 }
 

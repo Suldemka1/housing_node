@@ -56,6 +56,7 @@ class ParticipantEntity {
 
   @OneToOne(() => ParticipantEntity, (entity) => entity.id, {
     nullable: true,
+    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'spouse_id' })
   spouse?: ParticipantEntity;
