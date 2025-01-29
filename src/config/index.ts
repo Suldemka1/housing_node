@@ -15,4 +15,7 @@ export default () => ({
   upload: {
     uploadPath: process.env.UPLOAD_PATH,
   },
+  jwt: {
+    secret: process.env.SECRET,
+  },
 });

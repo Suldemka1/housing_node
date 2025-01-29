@@ -21,8 +21,8 @@ type ApplicationParticipantView = Pick<
                      'id', a.id,
                      'reason', a.reason,
                      'status', a.status,
-                     'acceptedAt', a.accepted_at,
-                     'createdAt', a.created_at
+                     'accepted_at', a.accepted_at,
+                     'created_at', a.created_at
              )                                                                  AS application,
              jsonb_build_object(
                      'id', p.id,
@@ -63,12 +63,12 @@ type ApplicationParticipantView = Pick<
       FROM application a
                LEFT JOIN participant p ON p.id = a.applicant_id
                LEFT JOIN participant_document_view pdv_p
-                         ON pdv_p.id = p.id
+                         ON pdv_p.participant_id = p.id
                LEFT JOIN participant s ON s.id = p.spouse_id
-               LEFT JOIN participant_document_view pdv_s ON pdv_s.id = s.id
+               LEFT JOIN participant_document_view pdv_s ON pdv_s.participant_id = s.id
                LEFT JOIN parent_children pc ON pc.parent_id = p.id
                LEFT JOIN participant c ON c.id = pc.children_id
-               LEFT JOIN participant_document_view pdv_c ON pdv_c.id = c.id
+               LEFT JOIN participant_document_view pdv_c ON pdv_c.participant_id = c.id
                LEFT JOIN documents cd ON cd.participant_id = c.id
                LEFT JOIN family f ON f.id = p.family_id
                LEFT JOIN real_estate re ON re.id = a.real_estate_id
@@ -86,8 +86,8 @@ class ApplicationViewEntity {
     id: number;
     reason: string;
     status: string;
-    createdAt: string;
-    acceptedAt: string;
+    created_at: string;
+    accepted_at: string;
   };
 
   @ViewColumn()

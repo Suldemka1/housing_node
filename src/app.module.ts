@@ -1,5 +1,5 @@
 import configuration from './config';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FamilyModule } from './modules/family/family.module';
@@ -35,6 +35,10 @@ import {
   MarriageCertificateEntity,
   SnilsEntity,
 } from './modules/document/entities';
+import {
+  BuildAccountabilityMiddleware,
+  GetTokenFromHeaderMiddleware,
+} from './common/middleware';
 
 @Module({
   imports: [
@@ -91,4 +95,10 @@ import {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer
+      .apply(GetTokenFromHeaderMiddleware, BuildAccountabilityMiddleware)
+      .forRoutes('*');
+  }
+}

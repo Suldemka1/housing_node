@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApplicationService } from './application.service';
@@ -14,7 +15,9 @@ import { ApplicationUpdateEntityDTO } from './dto/application.update';
 import { ApplicationEntityCreateDTO } from './dto/application.create';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QueueService } from '../queue/queue.service';
+import { AuthGuard } from '../../common/guards';
 
+@UseGuards(AuthGuard)
 @Controller('application')
 class ApplicationController {
   constructor(
@@ -41,7 +44,7 @@ class ApplicationController {
     return { data: id };
   }
 
-  @Get('/draft')
+  @Get('/')
   async getDraftApplications() {
     const data = await this.applicationService.getDraftApplications();
     return { data };

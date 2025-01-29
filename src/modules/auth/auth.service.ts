@@ -16,20 +16,20 @@ class AuthService implements OnModuleInit {
   ) {}
 
   login(account: AccountEntity) {
-    const { accessToken, expires } = this.createAccessToken(account);
-    const { refreshToken, refreshExpireDate } = this.createRefreshToken();
+    const { access_token, expires } = this.createAccessToken(account);
+    const { refresh_token, refresh_expire_date } = this.createRefreshToken();
 
     return {
-      accessToken,
+      access_token,
       expires,
-      refreshToken,
-      refreshExpireDate,
+      refresh_token,
+      refresh_expire_date,
     };
   }
 
   private createAccessToken(account: Omit<AccountEntity, 'password'>) {
     const now = Date.now();
-    const accessToken = sign(
+    const access_token = sign(
       {
         id: account.id,
         role: 'admin',
@@ -43,16 +43,16 @@ class AuthService implements OnModuleInit {
 
     const expires = now + 86400;
 
-    return { accessToken: accessToken, expires: expires };
+    return { access_token, expires: expires };
   }
 
   private createRefreshToken() {
-    const refreshToken = nanoid(64);
+    const refresh_token = nanoid(64);
     const now = Date.now();
     const twoDays = 2 * 86400;
-    const refreshExpireDate = now + twoDays;
+    const refresh_expire_date = now + twoDays;
 
-    return { refreshToken, refreshExpireDate };
+    return { refresh_token, refresh_expire_date };
   }
 
   /**

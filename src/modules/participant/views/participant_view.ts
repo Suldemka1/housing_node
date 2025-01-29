@@ -11,7 +11,7 @@ import { ParticipantDocumentView } from '../../document/views/participant_docume
              p.patronymic  as patronymic,
              pdv.documents as documents
       FROM participant p
-               LEFT JOIN participant_document_view pdv ON pdv.id = p.id;
+               LEFT JOIN participant_document_view pdv ON pdv.participant_id = p.id;
   `,
 })
 class ParticipantView {
