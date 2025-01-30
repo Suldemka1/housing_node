@@ -6,7 +6,9 @@ class SnilsEntity {
   @PrimaryColumn('uuid')
   id: string;
 
-  @OneToOne(() => DocumentEntity, (entity) => entity.id)
+  @OneToOne(() => DocumentEntity, (entity) => entity.id, {
+    onDelete: 'CASCADE',
+  })
   document: DocumentEntity;
 }
 

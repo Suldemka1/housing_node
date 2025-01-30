@@ -1,5 +1,6 @@
 import {
   Body,
+  ConflictException,
   Controller,
   ForbiddenException,
   Post,
@@ -23,13 +24,11 @@ class AuthController {
     if (!account) {
       throw new UnauthorizedException();
     }
-    console.log(account);
 
     const isPasswordCompares = await this.authService.comparePassword(
-      account.password,
       password,
+      account.password,
     );
-    console.log(isPasswordCompares);
     if (!isPasswordCompares) {
       throw new ForbiddenException();
     }
@@ -41,7 +40,13 @@ class AuthController {
 
   @Post('/register')
   async register(@Body() body: CreateAccountDTO) {
+    const isExists = await this.accountService.checkIsExists(body.email);
+    if (isExists) {
+      throw new ConflictException();
+    }
+
     const account = await this.accountService.create(body);
+
     const credentials = this.authService.login(account);
 
     return { data: credentials };

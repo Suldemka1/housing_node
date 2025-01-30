@@ -3,8 +3,12 @@ import {
   Body,
   Controller,
   Delete,
+  HttpStatus,
   Param,
   Patch,
+  Post,
+  Res,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
@@ -30,10 +34,20 @@ class DocumentController {
     };
   }
 
+  @Delete(':id')
+  async deleteDocument(@Res() res, @Param() id: string) {
+    const data = await this.documentService.delete(id);
+    if (data.affected > 0) {
+      return res.status(HttpStatus.NO_CONTENT);
+    } else {
+      return res.status(HttpStatus.NOT_FOUND);
+    }
+  }
+
   // TODO: need to implement attachment upload process
   @UseInterceptors(AnyFilesInterceptor())
-  @Patch('/attach/:id')
-  async uploadFile(@Param('id') id: string) {
+  @Post('/attach/:id')
+  async uploadFile(@Param('id') id: string, @UploadedFiles() files: File[]) {
     return id;
   }
 

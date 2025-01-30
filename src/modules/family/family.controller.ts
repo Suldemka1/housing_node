@@ -19,10 +19,7 @@ class FamilyController {
     familyEntity.isLarge = isLarge;
     familyEntity.isMarried = isMarried;
 
-    const updateResult = await this.familyService.updateFamily(
-      Number(id),
-      familyEntity,
-    );
+    const updateResult = await this.familyService.updateFamily(familyEntity);
 
     return {
       data: updateResult,

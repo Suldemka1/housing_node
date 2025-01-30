@@ -61,8 +61,9 @@ class ParticipantEntity {
   @JoinColumn({ name: 'spouse_id' })
   spouse?: ParticipantEntity;
 
-  @OneToOne(() => ApplicationEntity, (entity) => entity.id)
-  @JoinColumn({ name: 'application_id' })
+  @OneToOne(() => ApplicationEntity, (entity) => entity.id, {
+    onDelete: 'CASCADE',
+  })
   application: ApplicationEntity;
 
   @OneToOne(() => AccountEntity, (entity) => entity.id, {

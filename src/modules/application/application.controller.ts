@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -16,12 +17,14 @@ import { ApplicationEntityCreateDTO } from './dto/application.create';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QueueService } from '../queue/queue.service';
 import { AuthGuard } from '../../common/guards';
+import { ParticipantService } from '../participant/participant.service';
 
 @UseGuards(AuthGuard)
 @Controller('application')
 class ApplicationController {
   constructor(
     private readonly applicationService: ApplicationService,
+    private readonly participantService: ParticipantService,
     private readonly queueService: QueueService,
   ) {}
 
@@ -66,9 +69,24 @@ class ApplicationController {
       const { application, applicant, spouse, children, family, queue } = body;
       const originalApplication =
         await this.applicationService.getApplicationById(Number(id));
+      if (!originalApplication) {
+        throw new NotFoundException('application not found');
+      }
 
-      if (application.id && queue) {
-        const updatedQueue = await this.queueService.updateByApplicationId(
+      if (application) {
+        await this.applicationService.updateApplication(application);
+      }
+
+      if (applicant) {
+        await this.participantService.update(applicant.id, applicant);
+      }
+
+      if (spouse && spouse.id) {
+        await this.participantService.update(spouse.id, spouse);
+      }
+
+      if (queue) {
+        await this.queueService.updateByApplicationId(
           originalApplication.id,
           queue,
         );
@@ -79,13 +97,9 @@ class ApplicationController {
       } else {
       }
 
-      console.log(application);
-      console.log(applicant);
-      console.log(spouse);
-      console.log(children);
-      console.log(family);
+      const data = await this.applicationService.getApplicationById(Number(id));
 
-      return { data: body };
+      return { data };
     } catch (e) {
       throw e;
     }

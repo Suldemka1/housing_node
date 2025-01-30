@@ -13,7 +13,6 @@ class CreateAccountDTO {
   @IsEmail()
   email: string;
 
-  @IsOptional()
   @IsPhoneNumber('RU')
   phone?: string;
 

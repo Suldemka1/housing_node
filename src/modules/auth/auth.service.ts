@@ -10,10 +10,7 @@ import * as bcrypt from 'bcrypt';
 class AuthService implements OnModuleInit {
   secret: string = undefined;
 
-  constructor(
-    private readonly accountService: AccountService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   login(account: AccountEntity) {
     const { access_token, expires } = this.createAccessToken(account);
@@ -56,16 +53,15 @@ class AuthService implements OnModuleInit {
   }
 
   /**
-   *
    * @param password
    * @param hashed_password
    */
-  async comparePassword(hashed_password: string, password: string) {
+  async comparePassword(password: string, hashed_password: string) {
     return await bcrypt.compare(password, hashed_password);
   }
 
   onModuleInit() {
-    this.secret = this.configService.get<string>('secret');
+    this.secret = this.configService.get<string>('jwt.secret');
   }
 }
 

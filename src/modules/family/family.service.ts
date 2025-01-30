@@ -21,27 +21,35 @@ export class FamilyService {
     });
 
     const family = await this.familyRepository.save(familyObject);
-
-    if (documents) {
-      for (const document of documents) {
-        const newDocument = await this.documentCreateStrategy.create(document);
-        const updatedDocument = await this.documentRepository.update(
-          {
-            id: newDocument.id,
-          },
-          {
-            family: {
-              id: family.id,
-            },
-          },
-        );
-      }
-    }
+    await this.createFamilyDocuments(family.id, documents);
 
     return family;
   }
 
-  async updateFamily(id: number, family: FamilyEntity) {
-    return await this.familyRepository.update(id, family);
+  async createFamilyDocuments(familyId: number, documents) {
+    try {
+      if (documents) {
+        for (const document of documents) {
+          const newDocument =
+            await this.documentCreateStrategy.create(document);
+          const updatedDocument = await this.documentRepository.update(
+            {
+              id: newDocument.id,
+            },
+            {
+              family: {
+                id: familyId,
+              },
+            },
+          );
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateFamily(family: FamilyEntity) {
+    return await this.familyRepository.update(family.id, family);
   }
 }

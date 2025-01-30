@@ -11,14 +11,20 @@ class QueueService {
     applicationId: number,
     dto: QueueUpdateDTO,
   ): Promise<UpdateResult> {
-    const { type, number } = dto;
+    const { id, type, number } = dto;
     const isQueueBindable = await this.checkIsQueueBindable({
       type,
       number,
     });
 
     if (!isQueueBindable) {
-      throw new ConflictException('queue number already exists');
+      const originalQueue = await this.queueRepository.findOne({
+        where: { id },
+      });
+
+      if (originalQueue.id !== id) {
+        throw new ConflictException('queue number already exists');
+      }
     }
 
     return await this.queueRepository.update(
@@ -37,7 +43,6 @@ class QueueService {
   async checkIsQueueBindable(
     dto: Omit<QueueUpdateDTO, 'id'>,
   ): Promise<boolean> {
-    let isBindable = false;
     const queue = await this.queueRepository.find({
       where: {
         type: dto.type,
@@ -45,9 +50,24 @@ class QueueService {
       },
     });
 
-    isBindable = queue.length === 0;
+    return queue.length === 0;
+  }
 
-    return isBindable;
+  /*
+   * @description validate queue by application id
+   */
+  async validate(applicationId: number) {
+    const errors: string[] = [];
+
+    const queue = await this.queueRepository.findOne({
+      where: {
+        application: {
+          id: applicationId,
+        },
+      },
+    });
+
+    return errors;
   }
 }
 

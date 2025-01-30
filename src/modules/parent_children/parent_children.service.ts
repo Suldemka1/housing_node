@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ParentChildrenRepository } from './parent_children.repository';
+import { UpdateParticipantDTO } from '../application/dto/application.update';
 
 @Injectable()
 class ParentChildrenService {
@@ -15,6 +16,13 @@ class ParentChildrenService {
       parents,
       children,
     );
+  }
+
+  async updateChildrenList(children: UpdateParticipantDTO[]) {
+    for (const child of children) {
+      if (child.id) {
+      }
+    }
   }
 }
 

@@ -6,11 +6,15 @@ class ParentChildrenEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => ParticipantEntity, (participant) => participant.id)
+  @ManyToOne(() => ParticipantEntity, (participant) => participant.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'parent_id' })
   parent: ParticipantEntity;
 
-  @ManyToOne(() => ParticipantEntity, (participant) => participant.id)
+  @ManyToOne(() => ParticipantEntity, (participant) => participant.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'children_id' })
   child: ParticipantEntity;
 }

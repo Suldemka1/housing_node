@@ -28,6 +28,16 @@ class AccountService {
 
     return account;
   }
+
+  async checkIsExists(email: string) {
+    const isExists = await this.accountRepository.exists({
+      where: {
+        email,
+      },
+    });
+
+    return isExists;
+  }
 }
 
 export { AccountService };

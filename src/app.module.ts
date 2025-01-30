@@ -27,7 +27,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { DocumentFilesView } from './modules/files/view/document_files.view';
 import { ParticipantDocumentView } from './modules/document/views/participant_document.view';
 import { ParticipantView } from './modules/participant/views/participant_view';
-import { ApplicationViewEntity } from './modules/application/views/applicant.view';
+import { ApplicationViewEntity } from './modules/application/views/applicantion.view';
 import { PassportEntity } from './modules/document/entities/passport.entity';
 import {
   BirthCertificateEntity,
@@ -39,6 +39,7 @@ import {
   BuildAccountabilityMiddleware,
   GetTokenFromHeaderMiddleware,
 } from './common/middleware';
+import { FamilyDocumentsView } from './modules/family/views/family_documents.view';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import {
           AccountEntity,
           ApplicationEntity,
           FamilyEntity,
+          FamilyDocumentsView,
           DocumentEntity,
           PassportEntity,
           BirthCertificateEntity,

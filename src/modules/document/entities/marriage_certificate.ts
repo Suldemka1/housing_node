@@ -18,7 +18,9 @@ class MarriageCertificateEntity {
   @Column('date')
   issued_date: Date;
 
-  @OneToOne(() => DocumentEntity, (entity) => entity.id)
+  @OneToOne(() => DocumentEntity, (entity) => entity.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'document_id' })
   document: DocumentEntity;
 }

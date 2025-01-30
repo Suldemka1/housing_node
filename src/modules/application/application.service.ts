@@ -6,8 +6,9 @@ import { RealEstateRepository } from '../real_estate/real_estate.repository';
 import { ParticipantService } from '../participant/participant.service';
 import { DeleteResult, JsonContains, UpdateResult } from 'typeorm';
 import { ApplicationEntityCreateDTO } from './dto/application.create';
-import { ApplicationViewEntity } from './views/applicant.view';
+import { ApplicationViewEntity } from './views/applicantion.view';
 import { FamilyService } from '../family/family.service';
+import { UpdateApplicationDTO } from './dto/application.update';
 
 @Injectable()
 class ApplicationService {
@@ -98,16 +99,27 @@ class ApplicationService {
   }
 
   async setAcceptedStatus(id: number) {
+    const participants = await this.participantService.findByApplicationId(id);
+
+    for (const participant of participants) {
+      const errors = await this.participantService.validateParticipant(
+        participant.id,
+      );
+
+      if (errors.length > 0) {
+      }
+    }
+
     await this.applicationRepository.update(id, {
       status: ApplicationStatus.ACCEPTED,
     });
   }
 
-  updateApplication = async (
-    application: ApplicationEntity,
-  ): Promise<UpdateResult> => {
+  async updateApplication(
+    application: UpdateApplicationDTO,
+  ): Promise<UpdateResult> {
     return await this.applicationRepository.update(application.id, application);
-  };
+  }
 
   async updatePartial() {}
 

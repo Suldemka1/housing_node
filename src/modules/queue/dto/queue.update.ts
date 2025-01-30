@@ -1,7 +1,11 @@
 import { QueueType } from '../queue.entity';
-import { IsEnum, IsNumber } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 
 class QueueUpdateDTO {
+  @IsOptional()
+  @IsNumber()
+  id?: number;
+
   @IsEnum(QueueType)
   type: QueueType;
 

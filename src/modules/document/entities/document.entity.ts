@@ -39,15 +39,21 @@ class DocumentEntity {
   @OneToMany(() => FileEntity, (entity) => entity.document)
   files?: FileEntity[];
 
-  @ManyToOne(() => ParticipantEntity, (entity) => entity.id)
+  @ManyToOne(() => ParticipantEntity, (entity) => entity.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'participant_id' })
   participant: ParticipantEntity;
 
-  @ManyToOne(() => FamilyEntity, (entity) => entity.id)
+  @ManyToOne(() => FamilyEntity, (entity) => entity.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'family_id' })
   family: FamilyEntity;
 
-  @ManyToOne(() => ApplicationEntity, (entity) => entity.id)
+  @ManyToOne(() => ApplicationEntity, (entity) => entity.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'application_id' })
   application: ApplicationEntity;
 

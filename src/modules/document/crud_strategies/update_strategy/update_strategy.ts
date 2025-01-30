@@ -45,7 +45,7 @@ class DocumentUpdateStrategy implements DocumentUpdater {
 
     if (type === DocumentTypes.SNILS) {
       // TODO: need to implement SNILS-document creation behavior
-      throw new NotImplementedException();
+      throw new NotImplementedException('snils update is not implemented.');
     }
     const document = await this.strategy.update(dto);
     return document;

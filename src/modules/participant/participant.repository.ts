@@ -1,7 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { ParticipantEntity } from './participant.entity';
-import { DocumentEntity } from '../document/entities/document.entity';
+import {
+  ParticipantCreateEntityDTO,
+  ParticipantRequestDTO,
+} from './dto/participant.create';
+import { AnyDocumentCreateDTO } from '../document/crud_strategies/create_strategy/dto';
+import { DocumentEntity } from '../document/entities';
 
 @Injectable()
 class ParticipantRepository extends Repository<ParticipantEntity> {
@@ -9,16 +14,19 @@ class ParticipantRepository extends Repository<ParticipantEntity> {
     super(ParticipantEntity, dataSource.createEntityManager());
   }
 
-  async createDraft() {
-    return this.save(this.create());
-  }
-
-  async bindPassport(id: string, passport: DocumentEntity) {
-    const savedPassport = await this.manager.save(DocumentEntity, passport);
-    const updateResult = await this.update(id, {
-      passport: savedPassport,
+  async findByApplicationId(
+    applicationId: number,
+  ): Promise<ParticipantEntity[]> {
+    return await this.find({
+      where: {
+        application: {
+          id: applicationId,
+        },
+      },
+      relations: {
+        application: true,
+      },
     });
-    return updateResult;
   }
 }
 

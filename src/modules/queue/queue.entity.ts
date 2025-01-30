@@ -29,7 +29,9 @@ class QueueEntity {
   })
   number?: number;
 
-  @OneToOne(() => ApplicationEntity, (entity) => entity.id)
+  @OneToOne(() => ApplicationEntity, (entity) => entity.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'application_id' })
   application: ApplicationEntity;
 }

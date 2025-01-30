@@ -4,6 +4,7 @@ import {
   IsDateString,
   IsEnum,
   IsNotEmptyObject,
+  IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
@@ -42,26 +43,33 @@ class DocumentRequestData {
   issued_date: string;
 
   @IsString()
-  @IsOptional()
-  issuer?: '';
+  issuer: '';
 
-  @IsDateString()
   @IsOptional()
+  @IsDateString()
   birthdate?: string;
 }
 
 class FamilyRequestDTO {
+  @IsOptional()
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested()
   @Type(() => DocumentRequestData)
-  documents: DocumentRequestData[];
+  documents?: DocumentRequestData[];
 }
 
 class RealEstateDTO {
+  @IsNumber()
   sqm_price: number;
+
+  @IsNumber()
   full_price: number;
+
+  @IsNumber()
   support_amount: number;
+
+  @IsNumber()
   area: number;
 
   @IsOptional()
@@ -91,12 +99,10 @@ class ApplicationEntityCreateDTO {
   @Type(() => ParticipantRequestDTO)
   children: ParticipantRequestDTO[];
 
-  @IsOptional()
   @ValidateNested()
   @Type(() => FamilyRequestDTO)
-  family?: FamilyRequestDTO;
+  family: FamilyRequestDTO;
 
-  @IsOptional()
   @ValidateNested()
   @Type(() => RealEstateDTO)
   real_estate: RealEstateDTO;

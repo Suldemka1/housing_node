@@ -1,5 +1,5 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Repository, UpdateResult } from 'typeorm';
 import {
   BirthCertificateEntity,
   DivorceCertificateEntity,
@@ -150,16 +150,21 @@ class DocumentRepository extends Repository<DocumentEntity> {
   }
 
   async updatePassport(entity: PassportUpdateDTO): Promise<DocumentEntity> {
-    // TODO: implement update method
-    throw new NotImplementedException();
-    const data = await this.findOne({
+    const { type, ...passportFields } = entity;
+    const data = await this.manager.update(
+      PassportEntity,
+      { id: entity.id },
+      passportFields,
+    );
+
+    const passport = await this.findOne({
       where: { id: entity.id },
       relations: {
         passport: true,
       },
     });
 
-    return data;
+    return passport;
   }
 
   async updateBirthCertificate(

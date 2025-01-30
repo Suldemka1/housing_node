@@ -14,7 +14,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class UpdateApplicationDTO {
+export class UpdateApplicationDTO {
   @IsNumber()
   id: number;
 
@@ -68,7 +68,7 @@ class UpdatePassportDTO {
   issuer: string;
 }
 
-class UpdateParticipantDTO {
+export class UpdateParticipantDTO {
   @IsUUID('4')
   id: string;
 
@@ -81,11 +81,6 @@ class UpdateParticipantDTO {
   @IsString()
   @IsOptional()
   patronymic: string;
-
-  @IsObject()
-  @ValidateNested()
-  @Type(() => UpdatePassportDTO)
-  passport: UpdatePassportDTO;
 
   @IsOptional()
   @IsArray()
