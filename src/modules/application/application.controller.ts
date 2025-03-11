@@ -11,7 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApplicationService } from './application.service';
+import { ApplicationService } from './services/application.service';
 import { ApplicationUpdateEntityDTO } from './dto/application.update';
 import { ApplicationEntityCreateDTO } from './dto/application.create';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
@@ -34,12 +34,8 @@ class ApplicationController {
     @UploadedFiles() files: Express.Multer.File[],
     @Body() body: ApplicationEntityCreateDTO,
   ) {
-    try {
-      const data = await this.applicationService.createDraftApplication(body);
-      return { data: data };
-    } catch (error) {
-      throw error;
-    }
+    const data = await this.applicationService.createDraftApplication(body);
+    return { data };
   }
 
   @Post('/setQueue/:id')

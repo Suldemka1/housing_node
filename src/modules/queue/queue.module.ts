@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { QueueService } from './queue.service';
 import { QueueRepository } from './queue.repository';
 import { QueueController } from './queue.controller';
-import { ApplicationService } from '../application/application.service';
+import { ApplicationService } from '../application/services/application.service';
 import { ApplicationRepository } from '../application/application.repository';
 import { RealEstateModule } from '../real_estate/real_estate.module';
 import { FamilyModule } from '../family/family.module';

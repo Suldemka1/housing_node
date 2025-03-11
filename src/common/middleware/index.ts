@@ -1,2 +1,2 @@
-export { GetTokenFromHeaderMiddleware } from './get_token.middleware';
-export { BuildAccountabilityMiddleware } from './build_accountability';
+export { GetTokenFromHeaderMiddleware } from './get-token.middleware';
+export { BuildAccountabilityMiddleware } from './build-accountability';

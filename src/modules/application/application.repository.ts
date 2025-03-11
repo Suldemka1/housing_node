@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ApplicationEntity } from './application.entity';
-import { DataSource, Repository } from 'typeorm';
-import { ParticipantEntity } from '../participant/participant.entity';
-import { QueueEntity } from '../queue/queue.entity';
+import { ApplicationEntity, ApplicationStatus } from './application.entity';
+import { DataSource, JsonContains, Repository } from 'typeorm';
+import { ApplicationEntityCreateDTO } from './dto/application.create';
+import { ApplicationViewEntity } from './views/applicantion.view';
 
 @Injectable()
 class ApplicationRepository extends Repository<ApplicationEntity> {
@@ -10,20 +10,34 @@ class ApplicationRepository extends Repository<ApplicationEntity> {
     super(ApplicationEntity, dataSource.createEntityManager());
   }
 
-  async setApplicant(applicationId: number, applicant: ParticipantEntity) {
-    const updateResult = await this.update(applicationId, {
-      applicant: applicant,
+  async createApplication(
+    dto: ApplicationEntityCreateDTO,
+  ): Promise<ApplicationEntity> {
+    const { application } = dto;
+    const createdApplication = this.create({
+      ...application,
+      status: ApplicationStatus.DRAFT,
+      applicant: {
+        id: dto.applicant.id,
+      },
     });
-
-    return updateResult;
+    return await this.save(createdApplication);
   }
 
-  async setQueue(applicationId: number, queue: QueueEntity) {
-    const updateResult = await this.update(applicationId, {
-      queue: queue,
+  async getAllDraftApplications(): Promise<ApplicationViewEntity[]> {
+    return await this.manager.find(ApplicationViewEntity, {
+      where: {
+        application: JsonContains({ status: ApplicationStatus.DRAFT }),
+      },
     });
+  }
 
-    return updateResult;
+  async getApplicationById(id: number): Promise<ApplicationViewEntity> {
+    return await this.manager.findOne(ApplicationViewEntity, {
+      where: {
+        id,
+      },
+    });
   }
 }
 

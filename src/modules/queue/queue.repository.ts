@@ -8,9 +8,13 @@ class QueueRepository extends Repository<QueueEntity> {
     super(QueueEntity, dataSource.createEntityManager());
   }
 
-  async createDraft() {
+  async createDraft(applicationId: number, queueNumber: number) {
     const queue = this.create({
       type: QueueType.DRAFT,
+      number: queueNumber,
+      application: {
+        id: applicationId,
+      },
     });
     return await this.save(queue);
   }

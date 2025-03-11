@@ -21,6 +21,9 @@ class ApplicationRequestData {
   @IsString()
   reason: string;
 
+  @IsNumber()
+  queue_number: number;
+
   @IsDateString()
   accepted_at: string;
 }
@@ -59,7 +62,7 @@ class FamilyRequestDTO {
   documents?: DocumentRequestData[];
 }
 
-class RealEstateDTO {
+export class RealEstateDTO {
   @IsNumber()
   sqm_price: number;
 

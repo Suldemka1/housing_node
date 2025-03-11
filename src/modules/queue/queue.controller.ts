@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { QueueService } from './queue.service';
 import { QueueUpdateDTO } from './dto/queue.update';
-import { ApplicationService } from '../application/application.service';
+import { ApplicationService } from '../application/services/application.service';
 
 @Controller('queue')
 class QueueController {

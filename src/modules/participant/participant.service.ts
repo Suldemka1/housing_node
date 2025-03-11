@@ -14,6 +14,7 @@ import { ParentChildrenService } from '../parent_children/parent_children.servic
 import { DocumentService } from '../document/document.service';
 import { DocumentTypes } from '../document/entities';
 import { PassportUpdateDTO } from '../document/crud_strategies/update_strategy/dto';
+import { ApplicationEntityCreateDTO } from '../application/dto/application.create';
 
 @Injectable()
 class ParticipantService {
@@ -117,9 +118,7 @@ class ParticipantService {
   ): Promise<ParticipantEntity[]> {
     try {
       const parentList = parents.map((parent: ParticipantEntity | null) => {
-        if (parent) {
-          return parent.id;
-        }
+        if (parent) return parent.id;
         return null;
       });
       const childrenList: string[] = [];

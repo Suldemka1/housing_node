@@ -1,5 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { DocumentEntity } from '../document/entities/document.entity';
+import { ApplicationEntity } from '../application/application.entity';
 
 @Entity({
   name: 'real_estate',
@@ -30,6 +37,9 @@ class RealEstateEntity {
 
   @OneToMany(() => DocumentEntity, (document) => document.id)
   documents: DocumentEntity[];
+
+  @OneToOne(() => ApplicationEntity, (entity) => entity.id)
+  application: ApplicationEntity;
 }
 
 export { RealEstateEntity };

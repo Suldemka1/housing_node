@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ApplicationEntity } from './application.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApplicationService } from './application.service';
+import { ApplicationService } from './services/application.service';
 import { ApplicationRepository } from './application.repository';
 import { ApplicationController } from './application.controller';
 import { QueueModule } from '../queue/queue.module';

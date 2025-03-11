@@ -12,7 +12,7 @@ import { Type } from 'class-transformer';
 class ParticipantRequestDTO {
   @IsOptional()
   @IsString()
-  id?: number;
+  id?: string;
 
   @IsString()
   surname: string;
