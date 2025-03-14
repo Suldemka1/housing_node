@@ -1,8 +1,6 @@
 import configuration from './config';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { FamilyModule } from './modules/family/family.module';
 import { DocumentModule } from './modules/document/document.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -86,7 +84,6 @@ import { FamilyDocumentsView } from './modules/family/views/family_documents.vie
     AuthModule,
     AccountModule,
     ApplicationModule,
-    FamilyModule,
     FileModule,
     DocumentModule,
     ParticipantModule,
@@ -95,7 +92,7 @@ import { FamilyDocumentsView } from './modules/family/views/family_documents.vie
     RoleModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {

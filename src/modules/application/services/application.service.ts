@@ -8,6 +8,8 @@ import { ApplicationEntityCreateDTO } from '../dto/application.create';
 import { ApplicationViewEntity } from '../views/applicantion.view';
 import { FamilyService } from '../../family/family.service';
 import { UpdateApplicationDTO } from '../dto/application.update';
+import * as dayjs from 'dayjs';
+import { DocumentTypes } from '../../document/entities';
 
 @Injectable()
 class ApplicationService {
@@ -39,6 +41,64 @@ class ApplicationService {
 
   async getDraftApplications(): Promise<ApplicationViewEntity[]> {
     return await this.applicationRepository.getAllDraftApplications();
+  }
+
+  async getBaseApplicationInTableView(): Promise<
+    {
+      id: number;
+      queue_number: number;
+      queue_type: string;
+      full_name: string;
+      passport_details: string;
+      age: number;
+      accepted_at: string;
+      support_amount: number;
+    }[]
+  > {
+    const baseQueueApplications = await this.applicationRepository.find({
+      where: {
+        applicant: {
+          documents: {
+            type: DocumentTypes.PASSPORT,
+          },
+        },
+      },
+      relations: {
+        queue: true,
+        applicant: {
+          documents: {
+            passport: true,
+          },
+        },
+        real_estate: true,
+      },
+    });
+
+    const today = dayjs();
+
+    return baseQueueApplications.map((application) => {
+      const passport = application.applicant.documents.find(
+        (doc) => doc.type == 'PASSPORT',
+      )?.passport;
+
+      const birthday = dayjs(passport.birthdate);
+
+      return {
+        id: application.id,
+        queue_number: application.queue?.number ?? 0,
+        queue_type: application.queue?.type ?? 'base',
+        full_name:
+          application.applicant.surname +
+          ' ' +
+          application.applicant.name +
+          ' ' +
+          application.applicant.patronymic,
+        age: today.diff(birthday, 'years'),
+        passport_details: passport.series + ' ' + passport.number,
+        accepted_at: application.accepted_at.toString(),
+        support_amount: application.real_estate?.support_amount ?? 0,
+      };
+    });
   }
 
   async getApplicationById(id: number): Promise<ApplicationViewEntity> {

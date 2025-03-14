@@ -8,7 +8,6 @@ import {
   Patch,
   Post,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApplicationService } from './services/application.service';
@@ -16,10 +15,9 @@ import { ApplicationUpdateEntityDTO } from './dto/application.update';
 import { ApplicationEntityCreateDTO } from './dto/application.create';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { QueueService } from '../queue/queue.service';
-import { AuthGuard } from '../../common/guards';
 import { ParticipantService } from '../participant/participant.service';
 
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 @Controller('application')
 class ApplicationController {
   constructor(
@@ -47,6 +45,14 @@ class ApplicationController {
   async getDraftApplications() {
     const data = await this.applicationService.getDraftApplications();
     return { data };
+  }
+
+  @Get('/base')
+  async getBaseQueueApplications() {
+    const data = await this.applicationService.getBaseApplicationInTableView();
+    return {
+      data,
+    };
   }
 
   @Get('/:id')

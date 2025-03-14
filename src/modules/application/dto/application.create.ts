@@ -77,7 +77,6 @@ export class RealEstateDTO {
 
   @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
   @ValidateNested()
   @Type(() => DocumentRequestData)
   documents?: DocumentRequestData[];
